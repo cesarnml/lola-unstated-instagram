@@ -1,30 +1,27 @@
-import React from 'react';
+import React from 'react'
 import Header from '../Header/Header'
 import PostContainer from '../PostContainer/PostContainer'
-import PropTypes from 'prop-types';
+import AppContainer from '../../AppContainer'
+import { Subscribe } from 'unstated'
 
-const PostsPage = ({data, commentInput, searchInput}) => (
-    <div className="posts-page">
-        <Header 
-          searchInput={searchInput}
-        />
-        {data.map((data, index) => {
+const PostsPage = () => (
+  <Subscribe to={[AppContainer]}>
+    {app => (
+      <div className='posts-page'>
+        <Header />
+        {app.state.posts.map((post, index) => {
           return (
-            <PostContainer 
-              data={data} 
+            <PostContainer
+              post={post}
               index={index}
-              commentInput={commentInput}
-              searchInput={searchInput}
+              searchInput={app.state.searchInput}
+              key={post.imageUrl}
             />
           )
         })}
-    </div>
+      </div>
+    )}
+  </Subscribe>
 )
 
-PostsPage.proptypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
-  commentInput: PropTypes.string,
-  searchInput: PropTypes.string
-}
-
-export default PostsPage;
+export default PostsPage
